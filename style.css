@@ -268,44 +268,36 @@ section h2 { /* Styling for section titles */
 }
 
 /* Media Section (#media) Styling */
+.media-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--secondary-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.media-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.media-item figcaption {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    margin-top: auto;
+}
+
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.gallery-grid img {
-    width: 100%;
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 4px;
-    border: 2px solid var(--secondary-bg); /* Subtle border */
-    /* Consider adding a transition for hover effects if desired */
-}
-
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    height: 0;
-    overflow: hidden;
-    max-width: 100%;
-    background: #000; /* Fallback background for video area */
-    margin: 0 auto; /* Center if it has a max-width smaller than section */
-}
-
-.video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.video-container p { /* Styling for the placeholder text if iframe isn't there */
-    color: var(--text-color);
-    text-align: center;
-    padding-top: 25%; /* Adjust to center text vertically */
-    font-style: italic;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 
 /* System Requirements Section (#system-reqs) Styling */
