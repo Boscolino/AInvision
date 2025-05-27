@@ -295,6 +295,20 @@ section h2 { /* Styling for section titles */
     object-fit: cover;
 }
 
+.video-container {
+    max-width: 1200px; /* Match gallery or adjust as needed */
+    margin: 40px auto 0 auto; /* Top margin, centered horizontally */
+    padding: 0 20px; /* Consistent padding with gallery */
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block; /* Ensures proper box model behavior */
+    border-radius: 10px; /* Match image gallery item style */
+    background-color: var(--secondary-bg); /* Background for letterboxing if video aspect ratio differs */
+}
+
 /* Particles styling */
 .particles {
     position: fixed;
