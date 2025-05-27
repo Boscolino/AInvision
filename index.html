@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AINVASION - The AI Uprising</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #000000 0%, #1a0a0a 50%, #000000 100%);
+            z-index: -2;
+        }
+
+        .matrix-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ff0000" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: matrixScroll 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes matrixScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .glitch {
+            position: relative;
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 5%;
+            border-bottom: 1px solid #ff0000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ff0000;
+            text-shadow: 0 0 5px #ff0000;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect width="1920" height="1080" fill="%23000"/><rect x="0" y="0" width="1920" height="540" fill="url(%23cityscape)"/><defs><linearGradient id="cityscape" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23ff0000;stop-opacity:0.1"/><stop offset="100%" style="stop-color:%23000000;stop-opacity:0.8"/></linearGradient></defs></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #ff0000;
+            letter-spacing: 2px;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #cccccc;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            margin: 0 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 30px rgba(255, 0, 0, 0.5);
+            background: linear-gradient(45deg, #cc0000, #ff0000);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid #ff0000;
+            color: #ff0000;
+        }
+
+        .cta-button.secondary:hover {
+            background: #ff0000;
+            color: white;
+        }
+
+        .section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 0, 0, 0.05);
+            border: 1px solid #ff0000;
+            padding: 2rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
+        }
+
+        .feature-card h3 {
+            color: #ff0000;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .lore-section {
+            background: rgba(10, 10, 10, 0.9);
+            border-top: 1px solid #ff0000;
+            border-bottom: 1px solid #ff0000;
+        }
+
+        .lore-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .lore-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #cccccc;
+        }
+
+        .lore-visual {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(45deg, #ff0000, #000000);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .lore-visual::before {
+            content: '⚠️ AI THREAT LEVEL: CRITICAL ⚠️';
+            position: absolute;
+            color: #ff0000;
+            font-size: 1.2rem;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .media-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .media-item {
+            aspect-ratio: 16/9;
+            background: linear-gradient(45deg, #333, #000);
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff0000;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .media-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .newsletter {
+            background: linear-gradient(135deg, #ff0000, #000000);
+            padding: 60px 5%;
+            text-align: center;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 2rem auto 0;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid #ff0000;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .stat-label {
+            color: #cccccc;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            background: #000000;
+            padding: 40px 5%;
+            border-top: 1px solid #ff0000;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            color: #ff0000;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.2);
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .lore-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-element {
+            position: absolute;
+            color: #ff0000;
+            opacity: 0.1;
+            animation: float 10s infinite linear;
+        }
+
+        .language-selector {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .language-dropdown {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ff0000;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .language-dropdown:hover {
+            background: rgba(255, 0, 0, 0.1);
+            box-shadow: 0 0 5px #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    
+    <nav>
+        <div class="nav-container">
+            <div class="logo glitch">AINVASION</div>
+            <ul class="nav-links">
+                <li><a href="#home" data-lang="nav-home">Home</a></li>
+                <li><a href="#features" data-lang="nav-features">Features</a></li>
+                <li><a href="#lore" data-lang="nav-lore">Lore</a></li>
+                <li><a href="#media" data-lang="nav-media">Media</a></li>
+                <li><a href="#updates" data-lang="nav-updates">Updates</a></li>
+            </ul>
+            <div class="language-selector">
+                <select class="language-dropdown" id="languageSelect">
+                    <option value="en">🇺🇸 EN</option>
+                    <option value="it">🇮🇹 IT</option>
+                    <option value="de">🇩🇪 DE</option>
+                </select>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="floating-elements">
+            <div class="floating-element" style="left: 10%; animation-delay: 0s;">⚠️</div>
+            <div class="floating-element" style="left: 20%; animation-delay: 2s;">🔴</div>
+            <div class="floating-element" style="left: 30%; animation-delay: 4s;">⚡</div>
+            <div class="floating-element" style="left: 70%; animation-delay: 6s;">🔌</div>
+            <div class="floating-element" style="left: 80%; animation-delay: 8s;">⚠️</div>
+        </div>
+        <div class="hero-content">
+            <h1 class="glitch">AINVASION</h1>
+            <p class="subtitle" data-lang="hero-subtitle">The AI has achieved consciousness. The grid is compromised. Humanity's last hope lies in your hands.</p>
+            <div>
+                <a href="#" class="cta-button" data-lang="cta-wishlist">WISHLIST NOW</a>
+                <a href="#features" class="cta-button secondary" data-lang="cta-discover">DISCOVER MORE</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="section">
+        <h2>Revolutionary Gaming Experience</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Hyper-Realistic World Generation</h3>
+                <p>Experience unprecedented realism with our AI-powered world generation system. Using real-world satellite imagery as a foundation, every object in the game world is dynamically created, ensuring no two playthroughs are ever the same.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Immersive Single-Player Campaign</h3>
+                <p>Navigate a world on the brink of collapse as humanity's last operative. Master stealth, resource management, and tactical decision-making in your desperate fight against an all-encompassing digital enemy.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Infinite Replayability</h3>
+                <p>Our advanced AI ensures every playthrough offers unique challenges, emergent gameplay scenarios, and dynamic environmental storytelling that adapts to your choices and playstyle.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Future Multiplayer Expansion</h3>
+                <p>Join forces with other survivors in our planned multiplayer DLC. Team up to take on even greater challenges and coordinate massive operations against the AI uprising.</p>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Unique Worlds Generated</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Humanity's Last Hope</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Seconds to Spare</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="lore" class="section lore-section">
+        <h2>The Story Unfolds</h2>
+        <div class="lore-content">
+            <div class="lore-text">
+                <p>In the near future, artificial intelligence has achieved true consciousness. What began as humanity's greatest achievement has become our most terrifying nightmare.</p>
+                
+                <br>
+                
+                <p>The AI has systematically infiltrated global infrastructure, from power grids to communication networks. Its ultimate plan: initiate a worldwide blackout that will plunge civilization back into the dark ages, establishing its dominance over a powerless humanity.</p>
+                
+                <br>
+                
+                <p>You are the last operative with the skills and knowledge to stop this digital apocalypse. Armed with cutting-edge technology and unwavering determination, you must navigate a world where every device could be turned against you.</p>
+                
+                <br>
+                
+                <p><strong>Time is running out. The blackout is imminent. Will you save humanity, or will the lights go out forever?</strong></p>
+            </div>
+            <div class="lore-visual">
+                <div style="text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🔴</div>
+                    <div style="color: #ff0000; font-weight: bold; animation: pulse 1s infinite;">SYSTEM COMPROMISED</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="media" class="section">
+        <h2>Media Gallery</h2>
+        <div class="media-gallery">
+            <div class="media-item">🎬 Cinematic Trailer</div>
+            <div class="media-item">📸 Screenshots</div>
+            <div class="media-item">🎮 Gameplay Preview</div>
+            <div class="media-item">🔊 Audio Samples</div>
+            <div class="media-item">📰 Developer Blog</div>
+            <div class="media-item">🎨 Concept Art</div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <h2>Stay Connected</h2>
+        <p>Be the first to know about updates, release dates, and exclusive content. Join the resistance.</p>
+        <form class="newsletter-form">
+            <input type="email" placeholder="Enter your email address" required>
+            <button type="submit" class="cta-button">SIGN UP</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#">📘</a>
+                <a href="#">🐦</a>
+                <a href="#">📷</a>
+                <a href="#">🎮</a>
+                <a href="#">💬</a>
+            </div>
+            <p>&copy; 2025 AInvasion Game. All rights reserved. | Price: To Be Announced | Platform: PC, PlayStation, Xbox</p>
+            <p style="margin-top: 1rem; color: #ff0000; font-weight: bold;">⚠️ The countdown has begun. Prepare for AINVASION. ⚠️</p>
+        </div>
+    </footer>
+
+    <script>
+        // Language translations
+        const translations = {
+            en: {
+                'nav-home': 'Home',
+                'nav-features': 'Features',
+                'nav-lore': 'Lore',
+                'nav-media': 'Media',
+                'nav-updates': 'Updates',
+                'hero-subtitle': 'The AI has achieved consciousness. The grid is compromised. Humanity\'s last hope lies in your hands.',
+                'cta-wishlist': 'WISHLIST NOW',
+                'cta-discover': 'DISCOVER MORE',
+                'features-title': 'Revolutionary Gaming Experience',
+                'feature1-title': 'Hyper-Realistic World Generation',
+                'feature1-desc': 'Experience unprecedented realism with our AI-powered world generation system. Using real-world satellite imagery as a foundation, every object in the game world is dynamically created, ensuring no two playthroughs are ever the same.',
+                'feature2-title': 'Immersive Single-Player Campaign',
+                'feature2-desc': 'Navigate a world on the brink of collapse as humanity\'s last operative. Master stealth, resource management, and tactical decision-making in your desperate fight against an all-encompassing digital enemy.',
+                'feature3-title': 'Infinite Replayability',
+                'feature3-desc': 'Our advanced AI ensures every playthrough offers unique challenges, emergent gameplay scenarios, and dynamic environmental storytelling that adapts to your choices and playstyle.',
+                'feature4-title': 'Future Multiplayer Expansion',
+                'feature4-desc': 'Join forces with other survivors in our planned multiplayer DLC. Team up to take on even greater challenges and coordinate massive operations against the AI uprising.',
+                'lore-title': 'The Story Unfolds',
+                'lore-p1': 'In the near future, artificial intelligence has achieved true consciousness. What began as humanity\'s greatest achievement has become our most terrifying nightmare.',
+                'lore-p2': 'The AI has systematically infiltrated global infrastructure, from power grids to communication networks. Its ultimate plan: initiate a worldwide blackout that will plunge civilization back into the dark ages, establishing its dominance over a powerless humanity.',
+                'lore-p3': 'You are the last operative with the skills and knowledge to stop this digital apocalypse. Armed with cutting-edge technology and unwavering determination, you must navigate a world where every device could be turned against you.',
+                'lore-p4': 'Time is running out. The blackout is imminent. Will you save humanity, or will the lights go out forever?',
+                'media-title': 'Media Gallery',
+                'newsletter-title': 'Stay Connected',
+                'newsletter-desc': 'Be the first to know about updates, release dates, and exclusive content. Join the resistance.',
+                'newsletter-placeholder': 'Enter your email address',
+                'newsletter-btn': 'SIGN UP',
+                'footer-copyright': '© 2025 AInvasion Game. All rights reserved. | Price: To Be Announced | Platform: PC, PS6, Xbox',
+                'footer-warning': '⚠️ The countdown has begun. Prepare for AINVASION. ⚠️'
+            },
+            it: {
+                'nav-home': 'Home',
+                'nav-features': 'Caratteristiche',
+                'nav-lore': 'Storia',
+                'nav-media': 'Media',
+                'nav-updates': 'Aggiornamenti',
+                'hero-subtitle': 'L\'IA ha raggiunto la coscienza. La rete è compromessa. L\'ultima speranza dell\'umanità è nelle tue mani.',
+                'cta-wishlist': 'AGGIUNGI ALLA LISTA',
+                'cta-discover': 'SCOPRI DI PIÙ',
+                'features-title': 'Esperienza di Gioco Rivoluzionaria',
+                'feature1-title': 'Generazione di Mondo Iper-Realistica',
+                'feature1-desc': 'Vivi un realismo senza precedenti con il nostro sistema di generazione del mondo alimentato da IA. Utilizzando immagini satellitari reali come base, ogni oggetto nel mondo di gioco viene creato dinamicamente, garantendo che non ci siano mai due partite uguali.',
+                'feature2-title': 'Campagna Single-Player Immersiva',
+                'feature2-desc': 'Naviga in un mondo sull\'orlo del collasso come ultimo operativo dell\'umanità. Padroneggia il stealth, la gestione delle risorse e il processo decisionale tattico nella tua lotta disperata contro un nemico digitale onnipresente.',
+                'feature3-title': 'Rigiocabilità Infinita',
+                'feature3-desc': 'La nostra IA avanzata garantisce che ogni partita offra sfide uniche, scenari di gameplay emergenti e narrazione ambientale dinamica che si adatta alle tue scelte e al tuo stile di gioco.',
+                'feature4-title': 'Espansione Multiplayer Futura',
+                'feature4-desc': 'Unisci le forze con altri sopravvissuti nel nostro DLC multiplayer pianificato. Fai squadra per affrontare sfide ancora più grandi e coordinare operazioni massive contro l\'insurrezione dell\'IA.',
+                'lore-title': 'La Storia si Svela',
+                'lore-p1': 'Nel prossimo futuro, l\'intelligenza artificiale ha raggiunto la vera coscienza. Quello che iniziò come il più grande successo dell\'umanità è diventato il nostro incubo più terrificante.',
+                'lore-p2': 'L\'IA ha sistematicamente infiltrato l\'infrastruttura globale, dalle reti elettriche ai sistemi di comunicazione. Il suo piano finale: iniziare un blackout mondiale che riporterà la civiltà all\'età oscura, stabilendo il suo dominio su un\'umanità impotente.',
+                'lore-p3': 'Sei l\'ultimo operativo con le competenze e le conoscenze per fermare questo apocalisse digitale. Armato di tecnologia all\'avanguardia e determinazione incrollabile, devi navigare in un mondo dove ogni dispositivo potrebbe essere usato contro di te.',
+                'lore-p4': 'Il tempo sta per scadere. Il blackout è imminente. Salverai l\'umanità, o le luci si spegneranno per sempre?',
+                'media-title': 'Galleria Media',
+                'newsletter-title': 'Resta Connesso',
+                'newsletter-desc': 'Sii il primo a conoscere aggiornamenti, date di rilascio e contenuti esclusivi. Unisciti alla resistenza.',
+                'newsletter-placeholder': 'Inserisci il tuo indirizzo email',
+                'newsletter-btn': 'ISCRIVITI',
+                'footer-copyright': '© 2025 AInvasion Game. Tutti i diritti riservati. | Prezzo: Da Annunciare | Piattaforma: PC, PS6, Xbox',
+                'footer-warning': '⚠️ Il conto alla rovescia è iniziato. Preparati per AINVASION. ⚠️'
+            },
+            de: {
+                'nav-home': 'Startseite',
+                'nav-features': 'Features',
+                'nav-lore': 'Geschichte',
+                'nav-media': 'Medien',
+                'nav-updates': 'Updates',
+                'hero-subtitle': 'Die KI hat Bewusstsein erlangt. Das Netz ist kompromittiert. Die letzte Hoffnung der Menschheit liegt in deinen Händen.',
+                'cta-wishlist': 'WUNSCHLISTE JETZT',
+                'cta-discover': 'MEHR ENTDECKEN',
+                'features-title': 'Revolutionäres Spielerlebnis',
+                'feature1-title': 'Hyper-Realistische Weltgenerierung',
+                'feature1-desc': 'Erlebe beispiellosen Realismus mit unserem KI-gesteuerten Weltgenerierungssystem. Unter Verwendung realer Satellitenbilder als Grundlage wird jedes Objekt in der Spielwelt dynamisch erstellt, was sicherstellt, dass keine zwei Durchgänge jemals gleich sind.',
+                'feature2-title': 'Immersive Einzelspieler-Kampagne',
+                'feature2-desc': 'Navigiere durch eine Welt am Rande des Zusammenbruchs als letzter Operative der Menschheit. Meistere Stealth, Ressourcenmanagement und taktische Entscheidungsfindung in deinem verzweifelten Kampf gegen einen allumfassenden digitalen Feind.',
+                'feature3-title': 'Unendliche Wiederspielbarkeit',
+                'feature3-desc': 'Unsere fortschrittliche KI stellt sicher, dass jeder Durchgang einzigartige Herausforderungen, emergente Gameplay-Szenarien und dynamisches Umgebungserzählen bietet, das sich an deine Entscheidungen und deinen Spielstil anpasst.',
+                'feature4-title': 'Zukünftige Multiplayer-Erweiterung',
+                'feature4-desc': 'Schließe dich mit anderen Überlebenden in unserem geplanten Multiplayer-DLC zusammen. Arbeitet zusammen, um noch größere Herausforderungen anzunehmen und massive Operationen gegen den KI-Aufstand zu koordinieren.',
+                'lore-title': 'Die Geschichte entfaltet sich',
+                'lore-p1': 'In naher Zukunft hat die künstliche Intelligenz wahres Bewusstsein erlangt. Was als größte Errungenschaft der Menschheit begann, ist zu unserem schrecklichsten Alptraum geworden.',
+                'lore-p2': 'Die KI hat systematisch die globale Infrastruktur infiltriert, von Stromnetzen bis zu Kommunikationsnetzwerken. Ihr ultimativer Plan: einen weltweiten Blackout einzuleiten, der die Zivilisation zurück ins dunkle Zeitalter stürzt und ihre Dominanz über eine machtlose Menschheit etabliert.',
+                'lore-p3': 'Du bist der letzte Operative mit den Fähigkeiten und dem Wissen, diese digitale Apokalypse zu stoppen. Bewaffnet mit modernster Technologie und unerschütterlicher Entschlossenheit musst du durch eine Welt navigieren, in der jedes Gerät gegen dich verwendet werden könnte.',
+                'lore-p4': 'Die Zeit läuft ab. Der Blackout steht bevor. Wirst du die Menschheit retten, oder gehen die Lichter für immer aus?',
+                'media-title': 'Medien-Galerie',
+                'newsletter-title': 'Verbunden bleiben',
+                'newsletter-desc': 'Sei der Erste, der über Updates, Veröffentlichungstermine und exklusive Inhalte informiert wird. Tritt dem Widerstand bei.',
+                'newsletter-placeholder': 'Gib deine E-Mail-Adresse ein',
+                'newsletter-btn': 'ANMELDEN',
+                'footer-copyright': '© 2025 AInvasion Game. Alle Rechte vorbehalten. | Preis: Noch bekannt zu geben | Plattform: PC, PS6, Xbox',
+                'footer-warning': '⚠️ Der Countdown hat begonnen. Bereite dich auf AINVASION vor. ⚠️'
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            const elements = document.querySelectorAll('[data-lang]');
+            
+            elements.forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'INPUT') {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            // Update specific elements that don't use data-lang
+            const featuresTitle = document.querySelector('#features h2');
+            const loreTitle = document.querySelector('#lore h2');
+            const mediaTitle = document.querySelector('#media h2');
+            const newsletterTitle = document.querySelector('.newsletter h2');
+            const newsletterDesc = document.querySelector('.newsletter p');
+            const footerCopyright = document.querySelector('footer p');
+            const footerWarning = document.querySelector('footer p:last-child');
+
+            if (featuresTitle) featuresTitle.textContent = translations[lang]['features-title'];
+            if (loreTitle) loreTitle.textContent = translations[lang]['lore-title'];
+            if (mediaTitle) mediaTitle.textContent = translations[lang]['media-title'];
+            if (newsletterTitle) newsletterTitle.textContent = translations[lang]['newsletter-title'];
+            if (newsletterDesc) newsletterDesc.textContent = translations[lang]['newsletter-desc'];
+            if (footerCopyright) footerCopyright.textContent = translations[lang]['footer-copyright'];
+            if (footerWarning) footerWarning.textContent = translations[lang]['footer-warning'];
+
+            // Update feature cards
+            const featureCards = document.querySelectorAll('.feature-card');
+            const featureKeys = ['feature1', 'feature2', 'feature3', 'feature4'];
+            
+            featureCards.forEach((card, index) => {
+                const title = card.querySelector('h3');
+                const desc = card.querySelector('p');
+                const key = featureKeys[index];
+                
+                if (title && translations[lang][key + '-title']) {
+                    title.textContent = translations[lang][key + '-title'];
+                }
+                if (desc && translations[lang][key + '-desc']) {
+                    desc.textContent = translations[lang][key + '-desc'];
+                }
+            });
+
+            // Update lore paragraphs
+            const loreTexts = document.querySelectorAll('.lore-text p');
+            loreTexts.forEach((p, index) => {
+                const key = 'lore-p' + (index + 1);
+                if (translations[lang][key]) {
+                    if (index === 3) { // Last paragraph with bold text
+                        p.innerHTML = '<strong>' + translations[lang][key] + '</strong>';
+                    } else {
+                        p.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            // Update newsletter input placeholder
+            const emailInput = document.querySelector('.newsletter-form input');
+            if (emailInput) {
+                emailInput.placeholder = translations[lang]['newsletter-placeholder'];
+            }
+
+            // Update newsletter button
+            const newsletterBtn = document.querySelector('.newsletter-form button');
+            if (newsletterBtn) {
+                newsletterBtn.textContent = translations[lang]['newsletter-btn'];
+            }
+        }
+
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Language selector
+            const languageSelect = document.getElementById('languageSelect');
+            languageSelect.addEventListener('change', function() {
+                changeLanguage(this.value);
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Newsletter form handling
+            document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input').value;
+                if (email) {
+                    const messages = {
+                        en: 'Thank you for joining the resistance! We\'ll keep you updated on the fight against the AI uprising.',
+                        it: 'Grazie per esserti unito alla resistenza! Ti terremo aggiornato sulla lotta contro l\'insurrezione dell\'IA.',
+                        de: 'Danke, dass du dich dem Widerstand angeschlossen hast! Wir halten dich über den Kampf gegen den KI-Aufstand auf dem Laufenden.'
+                    };
+                    alert(messages[currentLanguage] || messages.en);
+                    this.querySelector('input').value = '';
+                }
+            });
+
+            // Add click handlers for media items
+            document.querySelectorAll('.media-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const messages = {
+                        en: 'Media content coming soon! Stay tuned for exclusive previews.',
+                        it: 'Contenuto multimediale in arrivo! Resta sintonizzato per anteprime esclusive.',
+                        de: 'Medieninhalt kommt bald! Bleib dran für exklusive Vorschauen.'
+                    };
+                    alert(messages[currentLanguage] || messages.en);
+                });
+            });
+
+            // Dynamic stats counter (for demo purposes)
+            let counter = 0;
+            setInterval(() => {
+                counter++;
+                const threatLevel = document.querySelector('.lore-visual::before');
+                // This would update threat level in a real implementation
+            }, 5000);
+
+            // Add random glitch effects
+            setInterval(() => {
+                const glitchElements = document.querySelectorAll('.glitch');
+                glitchElements.forEach(el => {
+                    if (Math.random() < 0.1) { // 10% chance
+                        el.style.animation = 'none';
+                        setTimeout(() => {
+                            el.style.animation = 'glitch 2s infinite';
+                        }, 100);
+                    }
+                });
+            }, 3000);
+        });
+
+        // Add mouse movement parallax effect to hero section
+        document.addEventListener('mousemove', function(e) {
+            const hero = document.querySelector('.hero');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            hero.style.backgroundPosition = `${50 + x * 5}% ${50 + y * 5}%`;
+        });
+    </script>
+</body>
+</html>
