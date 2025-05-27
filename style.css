@@ -282,10 +282,8 @@ section h2 { /* Styling for section titles */
     border-radius: 10px;
     overflow: hidden;
     background: var(--secondary-bg);
-    aspect-ratio: 16/9;
     width: 100%;
-    height: 0;
-    padding-bottom: 56.25%; /* This maintains 16:9 aspect ratio */
+    padding-top: 56.25%; /* This maintains 16:9 aspect ratio consistently */
 }
 
 .media-item img {
@@ -295,16 +293,12 @@ section h2 { /* Styling for section titles */
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center center;
 }
 
-/* Remove any specific styling for first-child */
+/* Remove ALL special handling for first-child */
 .media-item:first-child,
 .media-item:first-child img {
-    /* Reset any special handling */
-    aspect-ratio: 16/9;
-    max-width: none;
-    transform: none;
+    /* Remove any different styling for the first image */
 }
 
 /* Responsive adjustments */
