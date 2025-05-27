@@ -270,7 +270,7 @@ section h2 { /* Styling for section titles */
 /* Media Section (#media) Styling */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Fixed 3 columns */
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 20px;
     max-width: 1200px;
@@ -284,13 +284,27 @@ section h2 { /* Styling for section titles */
     background: var(--secondary-bg);
     aspect-ratio: 16/9;
     width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* This maintains 16:9 aspect ratio */
 }
 
 .media-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+    object-position: center center;
+}
+
+/* Remove any specific styling for first-child */
+.media-item:first-child,
+.media-item:first-child img {
+    /* Reset any special handling */
+    aspect-ratio: 16/9;
+    max-width: none;
+    transform: none;
 }
 
 /* Responsive adjustments */
