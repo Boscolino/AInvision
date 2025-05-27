@@ -90,4 +90,112 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 510);
         });
     });
+
+    // Language switcher functionality
+    const langButtons = document.querySelectorAll('.lang-btn');
+    let currentLang = 'en';
+
+    function updateContent(lang) {
+        // Update active button
+        langButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+
+        // Update all translatable content
+        // Update Hero Section
+        document.querySelector('#home h1').textContent = translations[lang].title;
+        document.querySelector('#home p').textContent = translations[lang].subtitle;
+        document.querySelector('#home button').textContent = translations[lang].discover;
+
+        // Update Lore Section
+        document.querySelector('#lore h2').textContent = translations[lang].falltitle;
+        const loreParagraphs = document.querySelectorAll('#lore .lore-text');
+        loreParagraphs[0].textContent = translations[lang].lore1;
+        loreParagraphs[1].textContent = translations[lang].lore2;
+        loreParagraphs[2].textContent = translations[lang].lore3;
+
+        // Update Features Section
+        document.querySelector('#features h2').textContent = translations[lang].featuresTitle;
+        const features = document.querySelectorAll('#features .feature-card');
+        features[0].querySelector('h3').textContent = translations[lang].feature1;
+        features[0].querySelector('p').textContent = translations[lang].feature1desc;
+        features[1].querySelector('h3').textContent = translations[lang].feature2;
+        features[1].querySelector('p').textContent = translations[lang].feature2desc;
+        features[2].querySelector('h3').textContent = translations[lang].feature3;
+        features[2].querySelector('p').textContent = translations[lang].feature3desc;
+        features[3].querySelector('h3').textContent = translations[lang].feature4;
+        features[3].querySelector('p').textContent = translations[lang].feature4desc;
+        features[4].querySelector('h3').textContent = translations[lang].feature5;
+        features[4].querySelector('p').textContent = translations[lang].feature5desc;
+
+        // Update Pre-order Section
+        document.querySelector('#preorder h2').textContent = translations[lang].preorderNow;
+        document.querySelector('.price-tag').textContent = translations[lang].price;
+        document.querySelector('#preorder h4').textContent = translations[lang].included;
+        const benefits = document.querySelectorAll('.benefits-list li');
+        benefits[0].textContent = translations[lang].benefit1;
+        benefits[1].textContent = translations[lang].benefit2;
+        benefits[2].textContent = translations[lang].benefit3;
+        benefits[3].textContent = translations[lang].benefit4;
+        benefits[4].textContent = translations[lang].benefit5;
+        document.querySelector('#preorder .cta-button').textContent = translations[lang].preorderButton;
+
+        // Update DLC Section
+        document.querySelector('#dlc h2').textContent = translations[lang].futureUpdates;
+        const dlcItems = document.querySelectorAll('.dlc-item');
+        dlcItems[0].querySelector('h3').textContent = translations[lang].dlc1Title;
+        dlcItems[0].querySelector('p').textContent = translations[lang].dlc1Text;
+        dlcItems[1].querySelector('h3').textContent = translations[lang].dlc2Title;
+        dlcItems[1].querySelector('p').textContent = translations[lang].dlc2Text;
+        dlcItems[2].querySelector('h3').textContent = translations[lang].dlc3Title;
+        dlcItems[2].querySelector('p').textContent = translations[lang].dlc3Text;
+
+        // Update Media Section
+        document.querySelector('#media h2').textContent = translations[lang].mediaGallery;
+        document.querySelector('.trailer-title').textContent = translations[lang].trailer;
+
+        // Update System Requirements Section
+        document.querySelector('#system-reqs h2').textContent = translations[lang].systemRequirements;
+        document.querySelector('#system-reqs h3').textContent = translations[lang].ps6Exclusive;
+        const reqBlocks = document.querySelectorAll('.req-block h4');
+        reqBlocks[0].textContent = translations[lang].minRequirements;
+        reqBlocks[1].textContent = translations[lang].recommendedExp;
+        reqBlocks[2].textContent = translations[lang].optimalExp;
+        document.querySelector('.performance-note p em').textContent = translations[lang].performanceNote;
+
+        const minReqList = document.querySelectorAll('.req-block')[0].querySelectorAll('ul li');
+        translations[lang].minReqList.forEach((item, i) => minReqList[i].textContent = item);
+        const recReqList = document.querySelectorAll('.req-block')[1].querySelectorAll('ul li');
+        translations[lang].recReqList.forEach((item, i) => recReqList[i].textContent = item);
+        const optReqList = document.querySelectorAll('.req-block')[2].querySelectorAll('ul li');
+        translations[lang].optReqList.forEach((item, i) => optReqList[i].textContent = item);
+
+        // Update Footer
+        document.querySelector('footer p:first-of-type').textContent = translations[lang].copyright;
+        document.querySelector('footer p:last-of-type').textContent = translations[lang].disclaimer;
+
+        // Update navigation items
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            const key = link.getAttribute('href').replace('#', '');
+            if (translations[lang][key]) {
+                link.textContent = translations[lang][key];
+            }
+        });
+        
+        // Store language preference
+        localStorage.setItem('preferred-language', lang);
+    }
+
+    // Set initial language
+    const storedLang = localStorage.getItem('preferred-language') || 'en';
+    updateContent(storedLang);
+
+    // Add click handlers
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.dataset.lang;
+            currentLang = lang;
+            updateContent(lang);
+        });
+    });
 });
