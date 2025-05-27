@@ -269,28 +269,31 @@ section h2 { /* Styling for section titles */
 
 /* Media Section (#media) Styling */
 .media-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: var(--secondary-bg);
+    position: relative;
     border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 20px;
+    aspect-ratio: 16 / 9;
 }
 
 .media-item img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
 }
 
-.media-item figcaption {
+/* Specific styling for the main character image */
+.media-item:first-child {
+    aspect-ratio: auto; /* Remove fixed aspect ratio to show full image */
+    max-width: 300px; /* Limit the maximum width */
+    margin: 0 auto; /* Center the image */
+}
+
+.media-item:first-child img {
     width: 100%;
-    padding: 10px;
-    text-align: center;
-    background: var(--secondary-bg);
-    color: var(--text-color);
-    margin-top: auto;
+    height: auto; /* Let height adjust automatically */
+    object-fit: contain; /* Show the entire image without cropping */
+    transform: none; /* Remove any scaling */
 }
 
 .gallery-grid {
@@ -298,6 +301,8 @@ section h2 { /* Styling for section titles */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* System Requirements Section (#system-reqs) Styling */
