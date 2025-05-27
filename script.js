@@ -1,15 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Create animated background particles
     const particlesContainer = document.getElementById('particles');
-    const particleCount = 50;
+    if (particlesContainer) {  // Check if element exists
+        const particleCount = 50;
 
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 20 + 's';
-        particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-        particlesContainer.appendChild(particle);
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            particlesContainer.appendChild(particle);
+        }
     }
 
     // Smooth Scrolling for Navigation Links

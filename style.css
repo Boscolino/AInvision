@@ -295,10 +295,49 @@ section h2 { /* Styling for section titles */
     object-fit: cover;
 }
 
-/* Remove ALL special handling for first-child */
-.media-item:first-child,
-.media-item:first-child img {
-    /* Remove any different styling for the first image */
+/* Particles styling */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(0, 200, 255, 0.1);
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(-100vh);
+    }
+    to {
+        transform: translateY(100vh);
+    }
+}
+
+/* Platform icons styling */
+.platform-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.platform-icon {
+    background: var(--secondary-bg);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: var(--font-heading);
+    color: var(--accent-color-2);
 }
 
 /* Responsive adjustments */
