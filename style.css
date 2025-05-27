@@ -288,12 +288,35 @@ section h2 { /* Styling for section titles */
 }
 
 .media-item img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+}
+
+/* Video container styling */
+.video-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.video-container video {
+    width: 100%;
+    border-radius: 10px;
+    background-color: var(--secondary-bg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    aspect-ratio: 16/9;
+}
+
+.trailer-title {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    color: var(--accent-color-2);
+    margin-bottom: 20px;
+    text-transform: uppercase;
 }
 
 /* Update the video container styling */
