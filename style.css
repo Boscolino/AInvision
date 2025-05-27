@@ -1,0 +1,457 @@
+/* CSS Variables and Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --primary-bg: rgb(10, 10, 15);
+    --secondary-bg: rgb(20, 20, 25);
+    --text-color: rgb(200, 200, 200);
+    --accent-color-1: rgb(255, 60, 0); /* Muted red/burnt orange */
+    --accent-color-2: rgb(0, 200, 255); /* Cyan blue */
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+/* Global Styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-color);
+    background-color: var(--primary-bg);
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-heading);
+    margin-top: 0; /* Basic reset */
+}
+
+h2 { /* Default for section titles, can be overridden */
+    color: var(--accent-color-2);
+}
+
+a {
+    color: var(--accent-color-1);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Header/Navigation Styling */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(10, 10, 15, 0.8); /* Semi-transparent */
+    padding: 1rem 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+header.scrolled {
+    background-color: var(--secondary-bg); /* Solid background on scroll */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 1rem;
+}
+
+nav ul li a {
+    color: var(--text-color);
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--accent-color-1);
+    text-decoration: none; /* Remove underline from nav hover specifically if desired */
+}
+
+/* Section Styling (General) */
+section {
+    padding: 100px 5%; /* Top/bottom padding, left/right padding */
+    min-height: 60vh; /* Minimum height for a section */
+    border-bottom: 1px solid var(--secondary-bg); /* Subtle separator */
+}
+
+section:last-of-type {
+    border-bottom: none; /* No border for the last section */
+}
+
+section h2 { /* Styling for section titles */
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-align: center;
+    color: var(--accent-color-2);
+    text-transform: uppercase;
+}
+
+/* Hero Section (#home) Styling */
+#home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative; /* For z-index and absolute positioning of children */
+    overflow: hidden; /* If using background elements that might exceed bounds */
+    padding-top: 80px; /* Account for fixed header height */
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #05050a; /* Darker placeholder for actual background */
+    /* TODO: Replace with actual background image/video styling */
+    /* e.g., background: url('path/to/hero-image.jpg') no-repeat center center/cover; */
+    z-index: -1;
+}
+
+#home h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color-1);
+}
+
+#home p { /* Subtitle */
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    max-width: 700px; /* Constrain width for readability */
+}
+
+#home button { /* CTA Button */
+    padding: 1rem 2rem;
+    background-color: var(--accent-color-1);
+    color: var(--primary-bg); /* Text color for button */
+    border: none;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-transform: uppercase;
+}
+
+#home button:hover {
+    background-color: var(--accent-color-2);
+    color: var(--primary-bg);
+}
+
+/* Lore Section (#lore) Styling */
+#lore {
+    background-color: var(--secondary-bg);
+}
+
+#lore p {
+    max-width: 800px; /* Optimal reading width */
+    margin: 0 auto; /* Center the paragraph block */
+    text-align: justify; /* Justified text for a more formal look */
+}
+
+/* Features Section (#features) Styling */
+/* Note: Wrap feature divs in a .features-grid container in HTML for this to apply correctly */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+#features > div > div { /* Assuming structure: section#features > div.features-grid > div.feature-block */
+    background-color: var(--secondary-bg);
+    padding: 25px;
+    border-radius: 8px;
+    border-left: 3px solid var(--accent-color-1); /* Accent border */
+}
+
+#features h3 {
+    font-size: 1.5rem;
+    color: var(--accent-color-2);
+    margin-bottom: 10px;
+}
+
+/* Pre-order Section (#preorder) Styling */
+#preorder {
+    background-color: var(--primary-bg); /* Or var(--secondary-bg) if preferred for contrast */
+    text-align: center;
+}
+
+#preorder h3 { /* Price */
+    font-size: 2rem;
+    color: var(--accent-color-1);
+    margin-bottom: 10px;
+}
+
+#preorder h4 { /* "Included with Pre-order:" */
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--accent-color-2);
+}
+
+#preorder ul {
+    list-style: none;
+    padding: 0;
+    max-width: 400px;
+    margin: 0 auto 30px auto; /* Center list, add bottom margin */
+    text-align: left; /* Align list items to the left */
+}
+
+#preorder ul li {
+    margin-bottom: 8px;
+    padding-left: 20px; /* Space for the custom bullet */
+    position: relative; /* For positioning the ::before pseudo-element */
+}
+
+#preorder ul li::before {
+    content: '✓'; /* Checkmark or other icon */
+    color: var(--accent-color-2);
+    position: absolute;
+    left: 0;
+}
+
+#preorder button { /* CTA Button */
+    padding: 1rem 2.5rem;
+    background-color: var(--accent-color-2);
+    color: var(--primary-bg);
+    border: none;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-transform: uppercase;
+}
+
+#preorder button:hover {
+    background-color: var(--accent-color-1);
+    color: var(--primary-bg); /* Ensure text color remains consistent or changes appropriately */
+}
+
+/* DLC Section (#dlc) Styling */
+#dlc {
+    background-color: var(--secondary-bg);
+}
+
+#dlc p {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Media Section (#media) Styling */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 4px;
+    border: 2px solid var(--secondary-bg); /* Subtle border */
+    /* Consider adding a transition for hover effects if desired */
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000; /* Fallback background for video area */
+    margin: 0 auto; /* Center if it has a max-width smaller than section */
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.video-container p { /* Styling for the placeholder text if iframe isn't there */
+    color: var(--text-color);
+    text-align: center;
+    padding-top: 25%; /* Adjust to center text vertically */
+    font-style: italic;
+}
+
+/* System Requirements Section (#system-reqs) Styling */
+#system-reqs p {
+    max-width: 600px;
+    margin: 10px auto; /* Center and space out paragraphs */
+}
+
+#system-reqs strong { /* "Minimum:", "Recommended:" labels */
+    color: var(--accent-color-2);
+}
+
+/* Footer Styling */
+footer {
+    background-color: var(--secondary-bg);
+    text-align: center;
+    padding: 30px 5%;
+    border-top: 1px solid var(--primary-bg); /* Separator from last section */
+}
+
+footer p {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    color: rgba(200, 200, 200, 0.7); /* Slightly muted text color */
+}
+
+footer div p { /* Placeholder for platform icons styling */
+    font-style: italic;
+    margin-bottom: 1rem; /* Space above copyright if icons are present */
+    /* TODO: Add styles for actual platform icons/logos */
+}
+
+/* Media Queries for Responsiveness */
+
+/* Tablets (e.g., max-width: 992px) */
+@media (max-width: 992px) {
+    #home h1 {
+        font-size: 3rem;
+    }
+
+    #home p {
+        font-size: 1.2rem;
+    }
+
+    section h2 { /* Section titles */
+        font-size: 2rem;
+    }
+
+    /* Example: Stack nav items on smaller screens if needed, or adjust spacing */
+    /* For a full hamburger menu, JS would be involved. This is a simpler CSS adjustment. */
+    /* nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 0.5rem 0;
+    } */
+
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+/* Mobile (e.g., max-width: 768px) */
+@media (max-width: 768px) {
+    body {
+        font-size: 15px; /* Slightly smaller base font for mobile */
+    }
+
+    header {
+        padding: 0.8rem 0;
+    }
+
+    /* Adjust nav for smaller screens - could become a hamburger menu trigger point */
+    nav ul {
+        flex-wrap: wrap; /* Allow items to wrap */
+        justify-content: space-around; /* Distribute items */
+    }
+
+    nav ul li a {
+        font-size: 0.8rem; /* Smaller nav text */
+    }
+
+    section {
+        padding: 60px 5%; /* Reduced padding for sections */
+    }
+
+    #home {
+        padding-top: 100px; /* Adjust if nav height changes due to wrapping */
+        /* Or adjust based on dynamic header height with JS */
+    }
+
+    #home h1 {
+        font-size: 2.5rem;
+    }
+
+    #home p {
+        font-size: 1rem;
+    }
+
+    #home button,
+    #preorder button {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+    }
+
+    section h2 { /* Section titles */
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr; /* Stack features */
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr; /* Stack media items */
+    }
+}
+
+/* Smaller Mobile (e.g., max-width: 480px) */
+@media (max-width: 480px) {
+    #home h1 {
+        font-size: 2rem;
+    }
+
+    nav ul li {
+        margin: 0 0.5rem; /* Further reduce nav item spacing */
+        /* Consider making nav items block elements and centering text if they stack weirdly */
+    }
+    nav ul li a {
+        font-size: 0.7rem; /* Even smaller nav text */
+    }
+}
+
+/* Accessibility Considerations (Comments) */
+/*
+- Color Contrast: Ensure text has sufficient contrast against its background.
+  The chosen variables aim for this, but always test, especially with accent colors.
+  Tools like browser developer tools or online contrast checkers can help.
+- Focus States: Ensure interactive elements (links, buttons, form inputs) have clear focus indicators.
+  Browsers provide defaults, but they can be customized for better visibility if needed:
+  e.g., a:focus, button:focus { outline: 2px solid var(--accent-color-2); outline-offset: 2px; }
+- Semantic HTML: Use appropriate HTML tags for structure (nav, main, section, article, aside, footer, etc.)
+  This is handled in the HTML structure but is crucial for CSS to work effectively and for accessibility.
+- Alt Text: Ensure all `<img>` tags have descriptive `alt` attributes. This is an HTML concern but impacts user experience.
+*/
+/* End of style.css */
