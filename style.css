@@ -357,7 +357,7 @@ section h2 { /* Styling for section titles */
 
 .particle {
     position: absolute;
-    background: rgba(0, 200, 255, 0.1);
+    background: rgba(0, 200, 255, 0.1); /* Changed from white to accent color with low opacity */
     width: 2px;
     height: 2px;
     border-radius: 50%;
